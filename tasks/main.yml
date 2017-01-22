@@ -25,6 +25,7 @@
   when: mode == "cluster"
 
 - debug: msg="{{ (auth_token.content|from_json).jwt }}"
+  when: mode == "cluster"
 
 - name: Define endpoints
   uri:
