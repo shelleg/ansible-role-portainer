@@ -1,0 +1,9 @@
+---
+portainer_version: 1.11.0
+portainer_port: 5000
+portainer_admin_pass: admin555
+
+swarm_nodes_group: swarm-nodes
+swarm_managers_group: swarm-managers
+
+mode: cluster

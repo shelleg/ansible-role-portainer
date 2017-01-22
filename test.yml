@@ -1,0 +1,5 @@
+---
+- hosts: swarm-managers
+  remote_user: ubuntu
+  roles:
+    - ansible-role-portainer
