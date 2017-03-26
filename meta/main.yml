@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: Haggai Philip Zagury
+  description: role to install portainer
+  company: Tikal Knowledge
+  license:
+    - MIT
+  min_ansible_version: 2.0
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - xenial
+  galaxy_tags:
+    - development
+    - continuous-integration
+    - CI
+
+dependencies: []
