@@ -32,7 +32,8 @@
     url: "http://{{ ansible_default_ipv4.address }}:{{ portainer_port }}/api/endpoints"
     method: POST
     return_content: yes
-    HEADER_Authorization: "{{ (auth_token.content|from_json).jwt }}"
+    headers:
+      Authorization: "{{ (auth_token.content|from_json).jwt }}"
     body: {"Name":"{{ hostvars[item]['ansible_host'] }}", "URL":"tcp://{{ hostvars[item]['ansible_host'] }}:2375"}
     body_format: json
   with_items:
