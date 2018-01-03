@@ -1,8 +1,0 @@
-[swarm-managers]
-manager ansible_host=10.1.1.0
-
-[swarm-nodes]
-manager ansible_host=10.1.1.0
-node1 ansible_host=10.1.1.1
-node2 ansible_host=10.1.1.2
-node3 ansible_host=10.1.1.3

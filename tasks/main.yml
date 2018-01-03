@@ -39,3 +39,14 @@
   with_items:
     - "{{ groups['{{ swarm_nodes_group }}'] | difference(groups['{{ swarm_managers_group }}']) }}"
   when: mode == "cluster"
+
+- name: Add remote endpoints
+  uri:
+    url: "{{ remote_endpoint }}"
+    method: POST
+    return_content: yes
+    headers:
+      Authorization: "{{ (auth_token.content|from_json).jwt }}"
+    body_format: json
+    body: {"Name":"{{ remote_endpoint_name }}", "URL":"tcp://{{ remote_endpoint_ip }}:{{ remote_endpoint_port }}"}
+  when: remote_endpoint is defined
