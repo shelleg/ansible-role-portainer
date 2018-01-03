@@ -42,7 +42,7 @@
 
 - name: Add remote endpoints
   uri:
-    url: "{{ remote_endpoint }}"
+    url: "{{ portainer_endpoint }}"
     method: POST
     return_content: yes
     headers:
