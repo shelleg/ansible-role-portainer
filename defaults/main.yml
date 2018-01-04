@@ -1,9 +1,22 @@
 ---
-portainer_version: 1.11.0
-portainer_port: 5000
-portainer_admin_pass: admin555
-
-swarm_nodes_group: swarm-nodes
-swarm_managers_group: swarm-managers
-
-mode: cluster
+version: 1.15.5
+host_port: 9000
+interface: "{{ ansible_default_ipv4.address }}"
+vlan_interface: "{{ hostvars[inventory_hostname]['ansible_' + 'eth1.40']['ipv4']['address'] }}"
+portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
+admin_user: admin
+admin_password: admin555
+r_endpoint_name: 10.0.16.201
+r_endpoint_url: tcp://10.0.16.201:2375
+# LDAP
+company_logo_url: 'url_to_logo'
+ldap_account: 'uid=name,ou=Users,o=org,dc=company,dc=com'
+ldap_account_password: 'somepassword'
+ldap_url: 'ldap.jumpcloud.com'
+ldap_port: 636
+tls_enabled: true
+tls_skipverify: true
+start_tls: true
+ldap_base_dn: 'ou=Users,o=org,dc=company,dc=com'
+ldap_filter: '(objectClass=account)'
+ldap_username_attribute: 'uid'
