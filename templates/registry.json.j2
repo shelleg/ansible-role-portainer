@@ -1,0 +1,7 @@
+{
+  "Name": "{{ registry_name }}",
+  "URL": "{{ registry_url }}:{{ registry_port }}",
+  "Authentication": {{ registry_auth | default('false')}},
+  "Username": "{{ registry_username }}",
+  "Password": "{{ registry_password }}"
+}
