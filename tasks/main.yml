@@ -79,7 +79,7 @@
       Authorization: "{{ (auth_token.content|from_json).jwt }}"
     body_format: json
     body: "{{ lookup('template','settings.json.j2') }}"
-  when: portainer_settings
+  when: configure_settings
 
 - name: Configure Registry
   uri:
@@ -90,4 +90,4 @@
       Authorization: "{{ (auth_token.content|from_json).jwt }}"
     body_format: json
     body: "{{ lookup('template','registry.json.j2') }}"
-  when: docker_registery
+  when: configure_registry

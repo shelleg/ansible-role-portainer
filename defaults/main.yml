@@ -1,26 +1,38 @@
 ---
-### Portainer version
+# Role settings
+configure_settings: false
+configure_registry: false
+remove_persistent_data: false
+remove_existing_container: false
+auth_method: 1
+#auth_method: 2=LDAP
+
+# Portainer version
 version: develop
-### Networking
-host_port: 9000
-vlan_interface: "{{ hostvars[inventory_hostname]['ansible_' + 'eth1.50']['ipv4']['address'] }}"
-portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
-### Admin User
-admin_user: admin
-admin_password: password
-### Settings
-portainer_settings: true
+# develop=LDAP support as 30.1.18
+
+# Misc settings
 company_logo_url: 'url_to_company_logo'
 templates_url: 'https://raw.githubusercontent.com/portainer/templates/master/templates.json'
 allow_bindmounts_users: true
 allow_privileged_users: true
-### Endpoints
+
+# Networking
+host_port: 9000
+vlan_interface: "{{ hostvars[inventory_hostname]['ansible_' + 'eth1.50']['ipv4']['address'] }}"
+portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
+
+# Admin User
+admin_user: admin
+admin_password: password
+
+# Endpoints
 endpoints:
   - {name: local, url: "unix:///var/run/docker.sock"}
   - {name: remote1, url: "tcp://1.2.3.4:2375"}
   - {name: remote2, url: "tcp://5.6.7.8:2375"}
-### LDAP
-auth_method: 2
+
+# LDAP
 ldap_account: 'uid=account_name,ou=Users,o=org,dc=mycompany,dc=com'
 ldap_account_password: password
 ldap_url: 'ldap.mycompany.com'
@@ -31,13 +43,11 @@ start_tls: true
 ldap_base_dn: 'ou=Users,o=org,dc=mycompany,dc=com'
 ldap_filter: '(objectClass=inetOrgPerson)'
 ldap_username_attribute: 'uid'
-### Registry
-docker_registery: true
-registry_name: Nexus-OSS
+
+# Registry
+registry_name: nexus-oss
 registry_url: 1.2.3.4
 registry_port: 5001
-registry_auth: true
+registry_auth: false
 registry_username: username
 registry_password: password
-remove_persistent_data: false
-remove_existing_container: false
