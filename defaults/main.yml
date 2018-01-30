@@ -4,12 +4,11 @@ configure_settings: false
 configure_registry: false
 remove_persistent_data: false
 remove_existing_container: false
+persistent_data_path: /opt/portainer:/data
 auth_method: 1
-#auth_method: 2=LDAP
 
 # Portainer version
-version: develop
-# develop=LDAP support as 30.1.18
+version: latest
 
 # Misc settings
 company_logo_url: 'url_to_company_logo'

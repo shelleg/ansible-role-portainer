@@ -16,10 +16,10 @@
 - name: Remove persistent data
   file:
     state: absent
-    path: /opt/portainer
+    path: "{{ persistent_data_path }}"
   when: remove_persistent_data
 
-- name: Deploy Portainer to host
+- name: "Deploy Portainer to {{ inventory_hostname }}"
   docker_container:
     name: portainer
     image: "portainer/portainer:{{ version }}"
@@ -31,7 +31,7 @@
       - "{{ host_port }}:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/portainer:/data
+      - "{{ persistent_data_path }}"
 
 - name: Wait for container
   wait_for:
