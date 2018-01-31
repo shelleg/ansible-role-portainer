@@ -1,0 +1,29 @@
+#jinja2: lstrip_blocks: "True", trim_blocks: "True"
+{
+  "TemplatesURL": "{{ templates_url }}",
+  "LogoURL": "{{ company_logo_url }}",
+  "DisplayDonationHeader": false,
+  "DisplayExternalContributors": false,
+  "AuthenticationMethod": {{ auth_method }},
+  {% if auth_method == '2' %}
+  "LDAPSettings": {
+    "ReaderDN": "{{ ldap_account }}",
+    "Password": "{{ ldap_account_password }}",
+    "URL": "{{ ldap_url }}",
+    "TLSConfig": {
+      "TLS": {{ tls_enabled }},
+      "TLSSkipVerify": {{ tls_skipverify }}
+    },
+    "StartTLS": {{ start_tls }},
+    "SearchSettings": [
+      {
+        "BaseDN": "{{ ldap_base_dn }}",
+        "Filter": "{{ ldap_filter }}",
+        "UserNameAttribute": "{{ ldap_username_attribute }}"
+      }
+    ]
+  },
+  {% endif %}
+  "AllowBindMountsForRegularUsers": {{ allow_bindmounts_users }},
+  "AllowPrivilegedModeForRegularUsers": {{ allow_privileged_users }}
+}

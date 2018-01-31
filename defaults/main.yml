@@ -1,9 +1,52 @@
 ---
-portainer_version: 1.11.0
-portainer_port: 5000
-portainer_admin_pass: admin555
+# Role settings
+configure_settings: false
+configure_registry: false
+remove_persistent_data: false
+remove_existing_container: false
+persistent_data_path: /opt/portainer:/data
+auth_method: 1
 
-swarm_nodes_group: swarm-nodes
-swarm_managers_group: swarm-managers
+# Portainer version
+version: latest
 
-mode: cluster
+# Misc settings
+company_logo_url: 'url_to_company_logo'
+templates_url: 'https://raw.githubusercontent.com/portainer/templates/master/templates.json'
+allow_bindmounts_users: true
+allow_privileged_users: true
+
+# Networking
+host_port: 9000
+vlan_interface: "{{ hostvars[inventory_hostname]['ansible_' + 'eth1.50']['ipv4']['address'] }}"
+portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
+
+# Admin User
+admin_user: admin
+admin_password: password
+
+# Endpoints
+endpoints:
+  - {name: local, url: "unix:///var/run/docker.sock"}
+  - {name: remote1, url: "tcp://1.2.3.4:2375"}
+  - {name: remote2, url: "tcp://5.6.7.8:2375"}
+
+# LDAP
+ldap_account: 'uid=account_name,ou=Users,o=org,dc=mycompany,dc=com'
+ldap_account_password: password
+ldap_url: 'ldap.mycompany.com'
+ldap_port: 636
+tls_enabled: true
+tls_skipverify: true
+start_tls: true
+ldap_base_dn: 'ou=Users,o=org,dc=mycompany,dc=com'
+ldap_filter: '(objectClass=inetOrgPerson)'
+ldap_username_attribute: 'uid'
+
+# Registry
+registry_name: nexus-oss
+registry_url: 1.2.3.4
+registry_port: 5001
+registry_auth: false
+registry_username: username
+registry_password: password
