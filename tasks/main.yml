@@ -11,23 +11,8 @@
 - include: admin.yml
   when: admin_user and admin_password is defined
 
-- name: Define Endpoints
-  shell: |
-    curl --silent --show-error -o /dev/null -w "%{http_code}" {{ portainer_endpoint }}/endpoints \
-      -H "Authorization: Bearer {{ (auth_token.content|from_json).jwt }}" \
-      -F "Name={{ item.name }}" \
-      -F "URL={{ item.url }}" \
-      -F "EndpointType=1"
-  args:
-    warn: False
-  with_items:
-    - "{{ endpoints | list }}"
+- include: endpoints.yml
   when: endpoints is defined
-  register: response
-  #failed_when: response.stdout.find("200") != -1
-
-- name: "TESTING, TEST"
-  debug: msg="{{ response }}"
 
 - name: Configure Portainer settings
   uri:
