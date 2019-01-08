@@ -15,6 +15,10 @@ This role installs Portainer using Docker container
 - Configure Portainer settings [Jinja2 template]
 - Configure registry [Jinja2 template]
 
+## Requirements
+
+- `curl`
+
 ## Role Vars
 name | description | default |
 -----|-------------|---------|
