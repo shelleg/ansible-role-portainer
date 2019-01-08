@@ -1,61 +1,14 @@
 ---
-
 - name: Install Docker-py
   pip:
     name: docker-py
     state: present
 
-- name: Remove existing container
-  docker_container:
-    name: portainer
-    state: absent
-    purge_networks: yes
-    force_kill: yes
-  when: remove_existing_container
+- include: clean-up.yml
 
-- name: Remove persistent data
-  file:
-    state: absent
-    path: "{{ persistent_data_path }}"
-  when: remove_persistent_data
+- include: install.yml
 
-- name: "Deploy Portainer to {{ inventory_hostname }}"
-  docker_container:
-    name: portainer
-    image: "portainer/portainer:{{ version }}"
-    state: started
-    detach: true
-    recreate: yes
-    restart_policy: always
-    published_ports:
-      - "{{ host_port }}:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ persistent_data_path }}"
-
-- name: Wait for container
-  wait_for:
-    port: "{{ host_port }}"
-    host: "{{ inventory_hostname }}"
-
-- name: Configure admin user password
-  uri:
-    url: "{{ portainer_endpoint }}/users/admin/init"
-    method: POST
-    return_content: yes
-    body_format: json
-    body: '{ "Username":"{{ admin_user }}", "Password":"{{ admin_password }}"}'
-    status_code: 200, 409
-  when: admin_user and admin_password is defined
-
-- name: Generate authentication token
-  uri:
-    url: "{{ portainer_endpoint }}/auth"
-    method: POST
-    return_content: yes
-    body_format: json
-    body: '{"Username": "{{ admin_user }}", "Password": "{{ admin_password }}"}'
-  register: auth_token
+- include: admin.yml
   when: admin_user and admin_password is defined
 
 - name: Define Endpoints
@@ -87,13 +40,5 @@
     body: "{{ lookup('template','settings.json.j2') }}"
   when: configure_settings
 
-- name: Configure Registry
-  uri:
-    url: "{{ portainer_endpoint }}/registries"
-    method: POST
-    return_content: yes
-    headers:
-      Authorization: "{{ (auth_token.content|from_json).jwt }}"
-    body_format: json
-    body: "{{ lookup('template','registry.json.j2') }}"
+- include: registry.yml
   when: configure_registry

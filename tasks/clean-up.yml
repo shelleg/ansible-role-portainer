@@ -1,0 +1,14 @@
+---
+- name: Remove existing container
+  docker_container:
+    name: portainer
+    state: absent
+    purge_networks: yes
+    force_kill: yes
+  when: remove_existing_container
+
+- name: Remove persistent data
+  file:
+    state: absent
+    path: "{{ persistent_data_path }}"
+  when: remove_persistent_data
