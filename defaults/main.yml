@@ -27,7 +27,7 @@ admin_password: password
 
 # Endpoints
 endpoints:
-  - {name: local, url: "unix:///var/run/docker.sock"}
+  - {name: local, url: ""}
   - {name: remote1, url: "tcp://1.2.3.4:2375"}
   - {name: remote2, url: "tcp://5.6.7.8:2375"}
 
