@@ -5,6 +5,8 @@ configure_registry: false
 remove_persistent_data: false
 remove_existing_container: false
 persistent_data_path: /opt/portainer:/data
+container_labels: {}
+container_restart_policy: always
 auth_method: 1
 
 # Portainer version

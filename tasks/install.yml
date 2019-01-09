@@ -3,10 +3,11 @@
   docker_container:
     name: portainer
     image: "portainer/portainer:{{ version }}"
+    labels: "{{ container_labels | default(omit) }}"
     state: started
     detach: true
     recreate: yes
-    restart_policy: always
+    restart_policy: "{{ container_restart_policy }}"
     published_ports:
       - "{{ host_port }}:9000"
     volumes:
