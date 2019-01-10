@@ -3,7 +3,7 @@
   uri:
     url: "{{ portainer_endpoint }}/auth"
     method: POST
-    return_content: yes
+    return_content: true
     body_format: json
     body: '{"Username": "{{ admin_user }}", "Password": "{{ admin_password }}"}'
   register: auth_token
@@ -13,7 +13,7 @@
   uri:
     url: "{{ portainer_endpoint }}/endpoints"
     method: GET
-    return_content: yes
+    return_content: true
     headers:
       Authorization: Bearer {{ (auth_token.content|from_json).jwt }}
   register: portainer_known_endpoints_raw
@@ -33,17 +33,18 @@
       -F "URL={{ item.url }}" \
       -F "EndpointType=1"
   args:
-    warn: False
+    warn: false
   with_items:
     - "{{ endpoints | list }}"
   when: item.name not in portainer_known_endpoints
   register: response
+  tags: [skip_ansible_lint]
 
-#- name: "Debug response"
-#  debug:
-#    msg: "Endpoint {{ item.item.name }}, Response: {{ item.stdout| default('{}')|from_json }}"
-#  with_items:
-#    - "{{ response.results }}"
+# - name: "Debug response"
+#   debug:
+#     msg: "Endpoint {{ item.item.name }}, Response: {{ item.stdout| default('{}')|from_json }}"
+#   with_items:
+#     - "{{ response.results }}"
 
 - name: Verifying calls
   fail:

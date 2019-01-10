@@ -3,7 +3,7 @@
   uri:
     url: "{{ portainer_endpoint }}/users/admin/init"
     method: POST
-    return_content: yes
+    return_content: true
     body_format: json
     body: '{ "Username":"{{ admin_user }}", "Password":"{{ admin_password }}"}'
     status_code: 200, 409
