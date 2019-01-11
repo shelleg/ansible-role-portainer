@@ -4,15 +4,15 @@
     name: docker-py
     state: present
 
-- include: clean-up.yml
+- include_tasks: clean-up.yml
 
-- include: install.yml
+- include_tasks: install.yml
 
-- include: admin.yml
+- include_tasks: admin.yml
   when: admin_user and admin_password is defined
 
-- include: endpoints.yml
-  when: endpoints is defined
+- include_tasks: endpoints.yml
+  when: endpoints is not none
 
 - name: Configure Portainer settings
   uri:
@@ -25,5 +25,5 @@
     body: "{{ lookup('template','settings.json.j2') }}"
   when: configure_settings
 
-- include: registry.yml
+- include_tasks: registry.yml
   when: configure_registry
