@@ -6,7 +6,7 @@
     labels: "{{ container_labels | default(omit) }}"
     state: started
     detach: true
-    recreate: true
+    recreate: "{{ container_recreate }}"
     restart_policy: "{{ container_restart_policy }}"
     published_ports:
       - "{{ host_port }}:9000"

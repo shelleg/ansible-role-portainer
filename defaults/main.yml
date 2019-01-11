@@ -7,6 +7,7 @@ remove_existing_container: false
 persistent_data_path: /opt/portainer:/data
 container_labels: {}
 container_restart_policy: always
+container_recreate: false
 auth_method: 1
 
 # Portainer version
