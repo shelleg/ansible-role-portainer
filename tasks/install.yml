@@ -8,6 +8,7 @@
     detach: true
     recreate: "{{ container_recreate }}"
     restart_policy: "{{ container_restart_policy }}"
+    links: "{{ container_links | default(omit) }}"
     published_ports:
       - "{{ host_port }}:9000"
     volumes:
