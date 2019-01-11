@@ -21,7 +21,8 @@
         "Filter": "{{ ldap_filter }}",
         "UserNameAttribute": "{{ ldap_username_attribute }}"
       }
-    ]
+    ],
+    "AutoCreateUsers": true
   },
   {% endif %}
   "AllowBindMountsForRegularUsers": {{ allow_bindmounts_users }},
