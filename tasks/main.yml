@@ -11,6 +11,16 @@
 - include_tasks: admin.yml
   when: admin_user and admin_password is defined
 
+- name: Generate authentication token
+  uri:
+    url: "{{ portainer_endpoint }}/auth"
+    method: POST
+    return_content: true
+    body_format: json
+    body: '{"Username": "{{ admin_user }}", "Password": "{{ admin_password }}"}'
+  register: auth_token
+  when: admin_user and admin_password is defined
+
 - include_tasks: endpoints.yml
   when: endpoints is not none
 
