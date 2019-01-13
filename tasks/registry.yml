@@ -1,0 +1,10 @@
+---
+- name: Configure Registry
+  uri:
+    url: "{{ portainer_endpoint }}/registries"
+    method: POST
+    return_content: true
+    headers:
+      Authorization: "{{ (auth_token.content|from_json).jwt }}"
+    body_format: json
+    body: "{{ lookup('template','registry.json.j2') }}"

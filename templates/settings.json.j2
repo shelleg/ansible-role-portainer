@@ -5,11 +5,11 @@
   "DisplayDonationHeader": false,
   "DisplayExternalContributors": false,
   "AuthenticationMethod": {{ auth_method }},
-  {% if auth_method == '2' %}
+  {% if auth_method == 2 %}
   "LDAPSettings": {
     "ReaderDN": "{{ ldap_account }}",
     "Password": "{{ ldap_account_password }}",
-    "URL": "{{ ldap_url }}",
+    "URL": "{{ ldap_url }}:{{ ldap_port }}",
     "TLSConfig": {
       "TLS": {{ tls_enabled }},
       "TLSSkipVerify": {{ tls_skipverify }}
@@ -21,7 +21,8 @@
         "Filter": "{{ ldap_filter }}",
         "UserNameAttribute": "{{ ldap_username_attribute }}"
       }
-    ]
+    ],
+    "AutoCreateUsers": true
   },
   {% endif %}
   "AllowBindMountsForRegularUsers": {{ allow_bindmounts_users }},

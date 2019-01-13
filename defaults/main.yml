@@ -5,6 +5,9 @@ configure_registry: false
 remove_persistent_data: false
 remove_existing_container: false
 persistent_data_path: /opt/portainer:/data
+container_labels: {}
+container_restart_policy: always
+container_recreate: false
 auth_method: 1
 
 # Portainer version
@@ -27,7 +30,7 @@ admin_password: password
 
 # Endpoints
 endpoints:
-  - {name: local, url: "unix:///var/run/docker.sock"}
+  - {name: local, url: ""}
   - {name: remote1, url: "tcp://1.2.3.4:2375"}
   - {name: remote2, url: "tcp://5.6.7.8:2375"}
 

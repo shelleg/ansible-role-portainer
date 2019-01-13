@@ -1,0 +1,21 @@
+---
+- name: "Deploy Portainer to {{ inventory_hostname }}"
+  docker_container:
+    name: portainer
+    image: "portainer/portainer:{{ version }}"
+    labels: "{{ container_labels | default(omit) }}"
+    state: started
+    detach: true
+    recreate: "{{ container_recreate }}"
+    restart_policy: "{{ container_restart_policy }}"
+    links: "{{ container_links | default(omit) }}"
+    published_ports:
+      - "{{ host_port }}:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "{{ persistent_data_path }}"
+
+- name: Wait for container
+  wait_for:
+    port: "{{ host_port }}"
+    host: "{{ inventory_hostname }}"

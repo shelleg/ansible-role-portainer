@@ -1,0 +1,18 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: geerlingguy.repo-epel
+    - role: geerlingguy.pip
+    - role: geerlingguy.docker
+    - role: ansible-role-portainer
+  vars:
+    pip_install_packages:
+      - name: docker-py
+    persistent_data_path: /opt/portainer:/data
+    company_logo_url: http://example.com/foo.png
+    portainer_endpoint: "http://{{ inventory_hostname }}:{{ host_port }}/api"
+    admin_user: admin
+    admin_password: admin
+    endpoints:
+      - {name: portainer-mgmt, url: "unix:///var/run/docker.sock"}

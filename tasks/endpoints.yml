@@ -1,0 +1,44 @@
+---
+- name: Get Endpoints
+  uri:
+    url: "{{ portainer_endpoint }}/endpoints"
+    method: GET
+    return_content: true
+    headers:
+      Authorization: Bearer {{ (auth_token.content|from_json).jwt }}
+  register: portainer_known_endpoints_raw
+
+- name: Save endpoints as fact
+  set_fact:
+    portainer_known_endpoints: "{{ portainer_known_endpoints_raw.json | map(attribute='Name') | list }}"
+
+- name: "Show known endpoints"
+  debug: msg="{{ portainer_known_endpoints }}"
+
+- name: Define Endpoints
+  shell: |
+    curl --silent --show-error -o - {{ portainer_endpoint }}/endpoints \
+      -H "Authorization: Bearer {{ (auth_token.content|from_json).jwt }}" \
+      -F "Name={{ item.name }}" \
+      -F "URL={{ item.url }}" \
+      -F "EndpointType=1"
+  args:
+    warn: false
+  with_items:
+    - "{{ endpoints | list }}"
+  when: item.name not in portainer_known_endpoints
+  register: response
+  tags: [skip_ansible_lint]
+
+# - name: "Debug response"
+#   debug:
+#     msg: "Endpoint {{ item.item.name }}, Response: {{ item.stdout| default('{}')|from_json }}"
+#   with_items:
+#     - "{{ response.results }}"
+
+- name: Verifying calls
+  fail:
+    msg: "Could not add endpoint: {{ item.item.name }} (Error: ...)"
+  failed_when: item.skipped is defined or ((item.stdout is defined) and (item.stdout|from_json).err is not defined)
+  with_items:
+    - "{{ response.results }}"
