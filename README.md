@@ -18,6 +18,7 @@ This role installs Portainer using Docker container
 ## Requirements
 
 - `curl`
+- `docker` (Service + python package)
 
 ## Role Vars
 name | description | default |
@@ -41,8 +42,13 @@ ansible-playbook -i myinventory ./playbooks/deploy-portainer.yml
 
 - hosts: myhosts
   become: true
+  vars:
+    pip_install_packages:
+      - name: docker
   vars_files:
     - vars/portainer.yml
   roles:
+   - geerlingguy.docker
+   - geerlingguy.pip
    - portainer
 ```

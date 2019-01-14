@@ -1,9 +1,4 @@
 ---
-- name: Install Docker-py
-  pip:
-    name: docker-py
-    state: present
-
 - include_tasks: clean-up.yml
 
 - include_tasks: install.yml
