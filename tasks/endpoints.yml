@@ -38,7 +38,7 @@
 
 - name: Verifying calls
   fail:
-    msg: "Could not add endpoint: {{ item.item.name }} (Error: ...)"
-  failed_when: item.skipped is defined or ((item.stdout is defined) and (item.stdout|from_json).err is not defined)
+    msg: "Could not add endpoint: {{ item.item.name }}"
+  when: item.stdout is defined and (item.stdout|from_json).err is defined
   with_items:
     - "{{ response.results }}"
