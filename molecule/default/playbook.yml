@@ -15,4 +15,4 @@
     admin_user: admin
     admin_password: admin
     endpoints:
-      - {name: portainer-mgmt, url: "unix:///var/run/docker.sock"}
+      - {name: local, url: ""}
