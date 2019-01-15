@@ -6,6 +6,7 @@ remove_persistent_data: false
 remove_existing_container: false
 persistent_data_path: /opt/portainer:/data
 container_labels: {}
+container_network:
 container_restart_policy: always
 container_recreate: false
 auth_method: 1
