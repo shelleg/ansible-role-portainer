@@ -9,16 +9,16 @@
     recreate: "{{ container_recreate }}"
     restart_policy: "{{ container_restart_policy }}"
     links: "{{ container_links | default(omit) }}"
-    networks: "{{ container_network | default(omit) }}"
+    networks: "{{ container_network | default(omit, True) }}"
     published_ports: "{{ container_ports | default(omit, True) }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ persistent_data_path }}"
   register: portainer_docker
 
-#- name: "Debug return values from docker_container"
-#  debug:
-#    msg: "{{ portainer_docker.ansible_facts.docker_container }}"
+# - name: "Debug return values from docker_container"
+#   debug:
+#     msg: "{{ portainer_docker.ansible_facts.docker_container }}"
 
 - set_fact:
     portainer_is_running: "{{ portainer_docker.ansible_facts.docker_container.State.Running }}"
