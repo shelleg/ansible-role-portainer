@@ -22,8 +22,10 @@ allow_privileged_users: true
 
 # Networking
 host_port: 9000
+container_ports:
+  - "9000:9000"
 vlan_interface: "{{ hostvars[inventory_hostname]['ansible_' + 'eth1.50']['ipv4']['address'] }}"
-portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
+#portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
 
 # Admin User
 admin_user: admin
