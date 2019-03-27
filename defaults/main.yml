@@ -6,6 +6,7 @@ remove_persistent_data: false
 remove_existing_container: false
 persistent_data_path: /opt/portainer:/data
 container_labels: {}
+container_network:
 container_restart_policy: always
 container_recreate: false
 auth_method: 1
@@ -21,8 +22,8 @@ allow_privileged_users: true
 
 # Networking
 host_port: 9000
-vlan_interface: "{{ hostvars[inventory_hostname]['ansible_' + 'eth1.50']['ipv4']['address'] }}"
-portainer_endpoint: "http://{{ vlan_interface }}:{{ host_port }}/api"
+container_ports:
+  - "9000:9000"
 
 # Admin User
 admin_user: admin

@@ -1,9 +1,4 @@
 ---
-- name: Install Docker-py
-  pip:
-    name: docker-py
-    state: present
-
 - include_tasks: clean-up.yml
 
 - include_tasks: install.yml
@@ -24,15 +19,7 @@
 - include_tasks: endpoints.yml
   when: endpoints is not none
 
-- name: Configure Portainer settings
-  uri:
-    url: "{{ portainer_endpoint }}/settings"
-    method: PUT
-    return_content: true
-    headers:
-      Authorization: "{{ (auth_token.content|from_json).jwt }}"
-    body_format: json
-    body: "{{ lookup('template','settings.json.j2') }}"
+- include_tasks: settings.yml
   when: configure_settings
 
 - include_tasks: registry.yml

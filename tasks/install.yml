@@ -9,13 +9,28 @@
     recreate: "{{ container_recreate }}"
     restart_policy: "{{ container_restart_policy }}"
     links: "{{ container_links | default(omit) }}"
-    published_ports:
-      - "{{ host_port }}:9000"
+    networks: "{{ container_network | default(omit, True) }}"
+    published_ports: "{{ container_ports | default(omit, True) }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ persistent_data_path }}"
+  register: portainer_docker
 
-- name: Wait for container
-  wait_for:
-    port: "{{ host_port }}"
-    host: "{{ inventory_hostname }}"
+# - name: "Debug return values from docker_container"
+#   debug:
+#     msg: "{{ portainer_docker.ansible_facts.docker_container }}"
+
+- set_fact:
+    portainer_is_running: "{{ portainer_docker.ansible_facts.docker_container.State.Running }}"
+
+- set_fact:
+    portainer_endpoint: "http://{{ portainer_docker.ansible_facts.docker_container.NetworkSettings.IPAddress }}:{{ host_port }}/api"
+
+- name: "Check!!!"
+  debug:
+    msg: "{{ portainer_is_running }} // {{ portainer_endpoint }}"
+
+- name: Check container status
+  fail:
+    msg: "Portainer did not start: {{ portainer_is_running }}"
+  when: not portainer_is_running
