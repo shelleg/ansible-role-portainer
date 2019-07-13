@@ -52,5 +52,7 @@ registry_name: nexus-oss
 registry_url: 1.2.3.4
 registry_port: 5001
 registry_auth: false
+# 1 (Quay.io), 2 (Azure container registry) or 3 (custom registry)
+registry_type: 3
 registry_username: username
 registry_password: password

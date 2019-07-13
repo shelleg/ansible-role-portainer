@@ -29,6 +29,7 @@ name | description | default |
 | remove_existing_container | remove an existing container named 'portainer' | false |
 | persistent_data_path | path that will be used to store persistent data | /opt/portainer:/data |
 | auth_method | use LDAP or standalone [2 for ldap, 1 for standalone] | | 1 |
+| registry_type | 1 (Quay.io), 2 (Azure container registry) or 3 (custom registry) | | 3 |
 | version | portainer version to use | at the time of commiting 'develop' is the version that supports LDAP | latest |
 *See main.yml under 'defaults' for a complete list*
 
