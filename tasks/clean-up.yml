@@ -10,5 +10,5 @@
 - name: Remove persistent data
   file:
     state: absent
-    path: "{{ persistent_data_path }}"
+    path: "{{ persistent_data_path.split(\":\") | first | string }}"
   when: remove_persistent_data
