@@ -10,6 +10,7 @@
     restart_policy: "{{ container_restart_policy }}"
     links: "{{ container_links | default(omit) }}"
     networks: "{{ container_network | default(omit, True) }}"
+    networks_cli_compatible: no # avoid ansible 2.12. Deprecation warning
     published_ports: "{{ container_ports | default(omit, True) }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
