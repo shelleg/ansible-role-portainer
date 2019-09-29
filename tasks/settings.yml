@@ -1,6 +1,6 @@
 ---
 # - debug:
-#     msg: "{{ lookup('template', 'settings.json.j2') }}"
+#     msg: "{{ lookup('template', 'settings.json.j2') }}"
 
 - name: Configure Portainer settings
   uri:

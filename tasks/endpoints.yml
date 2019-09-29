@@ -5,7 +5,7 @@
     method: GET
     return_content: true
     headers:
-      Authorization: Bearer {{ (auth_token.content|from_json).jwt }}
+      Authorization: Bearer {{ (auth_token.content|from_json).jwt }}
   register: portainer_known_endpoints_raw
 
 - name: Save endpoints as fact
@@ -13,7 +13,7 @@
     portainer_known_endpoints: "{{ portainer_known_endpoints_raw.json | map(attribute='Name') | list }}"
 
 - name: "Show known endpoints"
-  debug: msg="{{ portainer_known_endpoints }}"
+  debug: msg="{{ portainer_known_endpoints }}"
 
 - name: Define Endpoints
   shell: |
@@ -32,13 +32,13 @@
 
 # - name: "Debug response"
 #   debug:
-#     msg: "Endpoint {{ item.item.name }}, Response: {{ item.stdout| default('{}')|from_json }}"
+#     msg: "Endpoint {{ item.item.name }}, Response: {{ item.stdout| default('{}')|from_json }}"
 #   with_items:
 #     - "{{ response.results }}"
 
 - name: Verifying calls
   fail:
-    msg: "Could not add endpoint: {{ item.item.name }}"
+    msg: "Could not add endpoint: {{ item.item.name }}"
   when: item.stdout is defined and (item.stdout|from_json).err is defined
   with_items:
-    - "{{ response.results }}"
+    - "{{ response.results }}"

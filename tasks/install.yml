@@ -9,7 +9,8 @@
     recreate: "{{ container_recreate }}"
     restart_policy: "{{ container_restart_policy }}"
     links: "{{ container_links | default(omit) }}"
-    networks: "{{ container_network | default(omit, True) }}"
+    networks: "{{ container_network | default(omit, True) }}"
+    networks_cli_compatible: no # avoid ansible 2.12. Deprecation warning
     published_ports: "{{ container_ports | default(omit, True) }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -18,13 +19,13 @@
 
 # - name: "Debug return values from docker_container"
 #   debug:
-#     msg: "{{ portainer_docker.ansible_facts.docker_container }}"
+#     msg: "{{ portainer_docker.ansible_facts.docker_container }}"
 
 - set_fact:
     portainer_is_running: "{{ portainer_docker.ansible_facts.docker_container.State.Running }}"
 
 - set_fact:
-    portainer_endpoint: "http://{{ portainer_docker.ansible_facts.docker_container.NetworkSettings.IPAddress }}:{{ host_port }}/api"
+    portainer_endpoint: "http://{{ portainer_docker.ansible_facts.docker_container.NetworkSettings.IPAddress }}:{{ host_port }}/api"
 
 - name: "Check!!!"
   debug:
