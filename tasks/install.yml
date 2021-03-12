@@ -1,6 +1,6 @@
 ---
 - name: "Deploy Portainer to {{ inventory_hostname }}"
-  docker_container:
+  community.docker.docker_container:
     name: portainer
     image: "portainer/portainer:{{ version }}"
     labels: "{{ container_labels | default(omit) }}"
@@ -17,15 +17,15 @@
       - "{{ persistent_data_path }}"
   register: portainer_docker
 
-# - name: "Debug return values from docker_container"
+# - name: "Debug return values from container"
 #   debug:
-#     msg: "{{ portainer_docker.ansible_facts.docker_container }}"
+#     msg: "{{ portainer_docker.container }}"
 
 - set_fact:
-    portainer_is_running: "{{ portainer_docker.ansible_facts.docker_container.State.Running }}"
+    portainer_is_running: "{{ portainer_docker.container.State.Running }}"
 
 - set_fact:
-    portainer_endpoint: "http://{{ portainer_docker.ansible_facts.docker_container.NetworkSettings.IPAddress }}:{{ host_port }}/api"
+    portainer_endpoint: "http://{{ portainer_docker.container.NetworkSettings.IPAddress }}:{{ host_port }}/api"
 
 - name: "Check!!!"
   debug:
