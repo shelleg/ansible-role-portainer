@@ -35,3 +35,13 @@
   fail:
     msg: "Portainer did not start: {{ portainer_is_running }}"
   when: not portainer_is_running
+
+- name: Wait for Portainer web interface to get available
+  uri:
+    url: "http://{{ portainer_docker.container.NetworkSettings.IPAddress }}:{{ host_port }}"
+    method: GET
+  register: wait_portainer_result
+  until: wait_portainer_result is succeeded
+  retries: 10
+  delay: 3
+  changed_when: false
