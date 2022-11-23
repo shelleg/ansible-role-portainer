@@ -21,7 +21,7 @@
       -H "Authorization: Bearer {{ (auth_token.content|from_json).jwt }}" \
       -F "Name={{ item.name }}" \
       -F "URL={{ item.url }}" \
-      -F "EndpointType=1"
+      -F "EndpointCreationType=1"
   args:
     warn: false
   with_items:
